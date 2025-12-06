@@ -1,0 +1,255 @@
+"use client";
+
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  Layers,
+  Zap,
+  Shield,
+  BarChart3,
+  Globe,
+} from "lucide-react";
+import { clsx, ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+// Utility for clean class merging
+function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}
+
+// --- COMPONENTS ---
+
+// 1. Glass Navbar
+const Navbar = () => (
+  <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center py-4 px-4">
+    <div className="flex items-center justify-between w-full max-w-4xl px-6 py-3 bg-white/70 backdrop-blur-md border border-white/20 shadow-sm rounded-full">
+      <div className="font-bold text-lg tracking-tight text-slate-800 flex items-center gap-2">
+        <div className="w-4 h-4 bg-blue-500 rounded-full" />
+        Lumina
+      </div>
+      <div className="hidden md:flex gap-8 text-sm font-medium text-slate-600">
+        <a href="#" className="hover:text-slate-900 transition-colors">
+          Product
+        </a>
+        <a href="#" className="hover:text-slate-900 transition-colors">
+          Story
+        </a>
+        <a href="#" className="hover:text-slate-900 transition-colors">
+          Pricing
+        </a>
+      </div>
+      <button className="bg-slate-900 text-white text-sm px-5 py-2 rounded-full hover:bg-slate-800 transition-transform active:scale-95">
+        Get Started
+      </button>
+    </div>
+  </nav>
+);
+
+// 2. Bento Grid Card
+const BentoCard = ({ title, desc, icon: Icon, className, delay }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.5, delay }}
+    whileHover={{ y: -5 }} // The "Hover Lift"
+    className={cn(
+      "group relative p-6 bg-white border border-slate-100 rounded-3xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] overflow-hidden flex flex-col justify-between",
+      className
+    )}
+  >
+    {/* Background Gradient Mesh (Subtle) */}
+    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-slate-50 blur-3xl opacity-50 group-hover:bg-blue-50 transition-colors duration-500" />
+
+    <div className="relative z-10">
+      <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+        <Icon className="w-6 h-6 text-slate-700" strokeWidth={1.5} />
+      </div>
+      <h3 className="text-lg font-semibold text-slate-900 mb-2">{title}</h3>
+      <p className="text-slate-500 text-sm leading-relaxed">{desc}</p>
+    </div>
+  </motion.div>
+);
+
+// 3. Interactive Story SVG
+const StoryLine = () => (
+  <div className="w-full h-full flex items-center justify-center">
+    <svg width="200" height="100" viewBox="0 0 200 100" className="opacity-50">
+      <motion.path
+        d="M 10 50 Q 100 10 190 50"
+        fill="transparent"
+        stroke="#cbd5e1"
+        strokeWidth="2"
+        initial={{ pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        transition={{ duration: 2, ease: "easeInOut" }}
+      />
+      <motion.circle
+        cx="10"
+        cy="50"
+        r="4"
+        fill="#3b82f6"
+        initial={{ scale: 0 }}
+        whileInView={{ scale: 1 }}
+        transition={{ delay: 0.2 }}
+      />
+      <motion.circle
+        cx="190"
+        cy="50"
+        r="4"
+        fill="#3b82f6"
+        initial={{ scale: 0 }}
+        whileInView={{ scale: 1 }}
+        transition={{ delay: 1.8 }}
+      />
+    </svg>
+  </div>
+);
+
+// --- MAIN PAGE LAYOUT ---
+
+export default function Home() {
+  return (
+    <div className="min-h-screen pb-20">
+      <Navbar />
+
+      {/* HERO SECTION */}
+      <section className="pt-40 pb-20 px-6 max-w-5xl mx-auto text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="inline-block py-1 px-3 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-semibold tracking-wide mb-6">
+            NEW STANDARD 2025
+          </span>
+          <h1 className="text-5xl md:text-7xl font-bold text-slate-900 tracking-tight mb-6 leading-[1.1]">
+            Make it clear. <br />
+            <span className="text-slate-400">Make it calm.</span>
+          </h1>
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
+            A visual exploration of modern, lightweight interface design.
+            Focusing on typography, spacing, and subtle interaction over heavy
+            graphics.
+          </p>
+
+          <div className="flex justify-center gap-4">
+            <button className="bg-slate-900 text-white px-8 py-4 rounded-full font-medium flex items-center gap-2 hover:bg-slate-800 transition-all active:scale-95">
+              Start Building <ArrowRight size={16} />
+            </button>
+            <button className="px-8 py-4 rounded-full font-medium text-slate-600 hover:bg-slate-100 transition-all">
+              View Components
+            </button>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* BENTO GRID SECTION */}
+      <section className="px-4 max-w-6xl mx-auto mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4 h-auto md:h-[600px]">
+          {/* Large Card (Left) */}
+          <BentoCard
+            title="Unified Workflow"
+            desc="Connect your tools in one calm, organized space. No clutter, just focus."
+            icon={Layers}
+            className="md:col-span-1 md:row-span-2 bg-slate-50"
+            delay={0.1}
+          />
+
+          {/* Wide Card (Top Right) */}
+          <div className="md:col-span-2 md:row-span-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <BentoCard
+              title="Real-time Sync"
+              desc="Updates happen instantly across all devices."
+              icon={Zap}
+              delay={0.2}
+            />
+            <div className="relative bg-blue-600 text-white p-6 rounded-3xl overflow-hidden flex flex-col justify-center items-center shadow-lg">
+              <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+              <StoryLine />
+              <p className="relative z-10 text-blue-100 text-sm mt-2">
+                Visual Storytelling
+              </p>
+            </div>
+          </div>
+
+          {/* Small Cards (Bottom Right) */}
+          <BentoCard
+            title="Secure by Default"
+            desc="Enterprise grade encryption built-in."
+            icon={Shield}
+            delay={0.3}
+          />
+          <BentoCard
+            title="Global Edge"
+            desc="Deployed to 35+ regions worldwide."
+            icon={Globe}
+            delay={0.4}
+          />
+        </div>
+      </section>
+      {/* SOCIAL PROOF SECTION */}
+      <section className="py-24 px-6 max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-slate-900">
+            Loved by modern teams
+          </h2>
+          <p className="text-slate-500 mt-4">
+            Join 4,000+ companies building calmly.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Testimonial 1 */}
+          <div className="p-8 bg-white rounded-2xl border border-slate-100 shadow-sm">
+            <div className="flex text-yellow-400 mb-4">★★★★★</div>
+            <p className="text-slate-600 leading-relaxed mb-6">
+              "Lumina completely changed how we handle documents. The 'calm'
+              design philosophy actually works—we are less stressed."
+            </p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-slate-200 rounded-full" />
+              <div>
+                <p className="font-semibold text-sm">Sarah Jenkins</p>
+                <p className="text-xs text-slate-400">CTO, TechFlow</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Testimonial 2 (Featured/Taller) */}
+          <div className="p-8 bg-blue-600 rounded-2xl shadow-xl transform md:-translate-y-4">
+            <div className="flex text-blue-200 mb-4">★★★★★</div>
+            <p className="text-white text-lg leading-relaxed mb-6">
+              "I've used every tool out there. Nothing feels as fast or as fluid
+              as Lumina. It's the standard for 2025."
+            </p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-blue-500 rounded-full" />
+              <div>
+                <p className="font-semibold text-sm text-white">David Ross</p>
+                <p className="text-xs text-blue-200">Founder, Designify</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Testimonial 3 */}
+          <div className="p-8 bg-white rounded-2xl border border-slate-100 shadow-sm">
+            <div className="flex text-yellow-400 mb-4">★★★★★</div>
+            <p className="text-slate-600 leading-relaxed mb-6">
+              "The clear pricing and lack of feature bloat is refreshing. It
+              does exactly what it says it does."
+            </p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-slate-200 rounded-full" />
+              <div>
+                <p className="font-semibold text-sm">Emily Chen</p>
+                <p className="text-xs text-slate-400">Manager, Bloom</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
