@@ -1,0 +1,154 @@
+"use client";
+
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowUpRight, CheckCircle2 } from "lucide-react";
+
+// --- Project Data ---
+const projects = [
+  {
+    id: "01",
+    title: "Enterprise Data Center",
+    client: "Logistics Leader",
+    desc: "We implemented a high-availability, scalable data center infrastructure, ensuring 99.99% uptime with secure backup & disaster recovery protocols.",
+    stats: ["99.99% Uptime", "Zero Data Loss", "Pune, MH"],
+    color: "bg-blue-600",
+    gradient: "from-blue-600 to-indigo-600"
+  },
+  {
+    id: "02",
+    title: "Multi-Cloud Migration",
+    client: "E-Commerce Startup",
+    desc: "Helped an e-commerce startup migrate workloads to a hybrid AWS + Azure setup, reducing operational costs by 35% and boosting performance.",
+    stats: ["35% Cost Reduction", "Hybrid Cloud", "Scalable"],
+    color: "bg-purple-600",
+    gradient: "from-purple-600 to-pink-600"
+  },
+  {
+    id: "03",
+    title: "Cyber Security Revamp",
+    client: "Financial Sector",
+    desc: "Designed and deployed advanced endpoint protection and firewall systems to safeguard sensitive data and meet strict compliance regulations.",
+    stats: ["End-to-End Encrypt", "Compliance Ready", "24/7 Monitoring"],
+    color: "bg-emerald-600",
+    gradient: "from-emerald-600 to-teal-600"
+  },
+  {
+    id: "04",
+    title: "Smart Mining Dashboard",
+    client: "Industrial Automation",
+    desc: "Delivered a custom software dashboard for a mining client to monitor trucks, fuel, and productivity across multiple sites.",
+    stats: ["IoT Integration", "Real-time Data", "Safety First"],
+    color: "bg-orange-600",
+    gradient: "from-orange-600 to-amber-600"
+  },
+];
+
+// --- Single Project Section ---
+const ProjectSection = ({ project }) => {
+  return (
+    <section className="sticky top-0 min-h-screen flex flex-col md:flex-row items-center bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 overflow-hidden">
+      
+      {/* 1. VISUAL SIDE (Left) - 50% width */}
+      <div className="w-full md:w-1/2 h-[50vh] md:h-screen relative flex items-center justify-center overflow-hidden">
+         {/* Background Gradient */}
+         <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-10`} />
+         
+         {/* Abstract Glass Shape */}
+         <motion.div 
+            initial={{ scale: 0.8, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: false, margin: "-20%" }}
+            transition={{ duration: 0.8 }}
+            className={`w-[300px] h-[400px] rounded-[3rem] bg-gradient-to-br ${project.gradient} shadow-2xl flex items-center justify-center relative overflow-hidden group`}
+         >
+            {/* Inner Texture */}
+            <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] contrast-150 brightness-100" />
+            <span className="text-9xl font-bold text-white opacity-20 group-hover:scale-110 transition-transform duration-700">
+              {project.id}
+            </span>
+         </motion.div>
+      </div>
+
+      {/* 2. CONTENT SIDE (Right) - 50% width */}
+      <div className="w-full md:w-1/2 h-auto md:h-screen flex flex-col justify-center px-8 md:px-20 py-12 bg-white/50 backdrop-blur-sm">
+         <motion.div
+           initial={{ opacity: 0, x: 50 }}
+           whileInView={{ opacity: 1, x: 0 }}
+           viewport={{ once: true }}
+           transition={{ duration: 0.6, delay: 0.2 }}
+         >
+           <div className="flex items-center gap-4 mb-6">
+              <span className={`px-4 py-1 rounded-full text-xs font-bold text-white ${project.color}`}>
+                 CASE STUDY
+              </span>
+              <span className="text-sm font-semibold text-slate-400 uppercase tracking-widest">
+                 {project.client}
+              </span>
+           </div>
+
+           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
+             {project.title}
+           </h2>
+
+           <p className="text-lg text-slate-600 leading-relaxed mb-8 max-w-lg">
+             {project.desc}
+           </p>
+
+           {/* Stats / Key Features */}
+           <div className="space-y-4 border-t border-slate-100 pt-8">
+              {project.stats.map((stat, i) => (
+                <div key={i} className="flex items-center gap-3">
+                   <CheckCircle2 className={`w-5 h-5 ${project.color.replace("bg-", "text-")}`} />
+                   <span className="text-slate-700 font-medium">{stat}</span>
+                </div>
+              ))}
+           </div>
+           
+           <div className="mt-10">
+              <button className="flex items-center gap-2 text-slate-900 font-bold border-b-2 border-black pb-1 hover:text-indigo-600 hover:border-indigo-600 transition-all group">
+                View Details 
+                <ArrowUpRight className="w-4 h-4 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
+              </button>
+           </div>
+         </motion.div>
+      </div>
+
+    </section>
+  );
+};
+
+export default function ProjectsPage() {
+  return (
+    <div className="bg-white">
+      {/* Intro Header */}
+      <div className="h-[60vh] flex flex-col justify-center items-center text-center px-6 bg-slate-50">
+         <motion.h1 
+           initial={{ opacity: 0, y: 30 }}
+           animate={{ opacity: 1, y: 0 }}
+           className="text-6xl md:text-8xl font-bold text-slate-900 mb-6 tracking-tighter"
+         >
+           Our Work
+         </motion.h1>
+         <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-xl text-slate-500 max-w-2xl"
+         >
+           Delivering real-world IT solutions that drive growth, security, and digital transformation.
+         </motion.p>
+      </div>
+
+      {/* Project Sections */}
+      <div className="relative">
+        {projects.map((project) => (
+          <ProjectSection key={project.id} project={project} />
+        ))}
+      </div>
+      
+      {/* Footer Spacer */}
+      <div className="h-32 bg-white"></div>
+    </div>
+  );
+}
